@@ -6,7 +6,7 @@ import sys
 from dotenv import load_dotenv
 
 # Charger les variables d'environnement depuis le fichier .env (utile en local)
-#load_dotenv()
+load_dotenv()
 
 api_key = os.getenv('API_KEY')
 
