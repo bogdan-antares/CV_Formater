@@ -93,6 +93,10 @@ class CVFormaterApp(App):
             popup = Popup(title='Erreur', content=Label(text=f'Erreur d\'exécution: {e.stderr}'), size_hint=(0.6, 0.3))
             popup.open()
 
+    def on_request_close(self, *args):
+        print("Application closed")
+        return False  # Return False to indicate the window should close
+
 if __name__ == "__main__":
     CVFormaterApp().run()
 
