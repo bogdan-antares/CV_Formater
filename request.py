@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 # Charger les variables d'environnement depuis le fichier .env (utile en local)
 load_dotenv()
 
-api_key = os.getenv('api_key')
+api_key = os.getenv('API_KEY')
 
 if not api_key:
     raise ValueError("La clé API OpenAI n'est pas définie dans les variables d'environnement.")
