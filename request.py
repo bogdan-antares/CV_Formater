@@ -130,7 +130,7 @@ def main(cv_test_file, save_path):
         
     # Run the example.py script
     try:
-        result = subprocess.run(['python', 'exemple.py', save_path], check=True, capture_output=True, text=True)
+        result = subprocess.run(['python', 'template.py', save_path], check=True, capture_output=True, text=True)
         print(f"STDOUT: {result.stdout}")
         print(f"STDERR: {result.stderr}")
     except subprocess.CalledProcessError as e:
