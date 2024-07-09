@@ -84,7 +84,7 @@ class CVFormaterApp(App):
 
     def run_web_script(self, save_path):
         try:
-            result = subprocess.run(['python', 'web.py', 'cv_text.txt', save_path], check=True, capture_output=True, text=True)
+            result = subprocess.run(['python', 'request.py', 'cv_text.txt', save_path], check=True, capture_output=True, text=True)
             print(f"STDOUT: {result.stdout}")
             print(f"STDERR: {result.stderr}")
             popup = Popup(title='Succès', content=Label(text=f'Document sauvegardé à {save_path}'), size_hint=(0.6, 0.3))
