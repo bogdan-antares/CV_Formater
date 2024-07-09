@@ -10,7 +10,7 @@ import os
 
 # Vérifiez que save_path est passé comme argument
 if len(sys.argv) != 2:
-    print("Usage: python exemple.py <save_path>")
+    print("Usage: python template.py <save_path>")
     sys.exit(1)
 
 filename = sys.argv[1]
