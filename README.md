@@ -18,23 +18,23 @@ Entrer la commande suivante :
 
 Fermer la page PowerShell et réouvrer-la de la même manière que précedemment puis entrer la commande suivante :
 
-'''choco install python -y'''
+```choco install python -y```
 
 Puis lorsque l'installation est terminé, fermer et réouvrer la page PowerShell et entrer la commande suivante pour vérifier la bonne installation de Python : 
 
-'''python --version'''
+```python --version```
 
 ## Etape 4 : 
 
 Entrer les commandes suivante : 
 
-'''winget install Python.Python3''' # (Pour cette commande, lorsque c'est demandé, appuyer sur 'y')
-'''pip install numpy'''
-'''choco install git'''
-'''pip install kivy'''
-'''pip install openai'''
-'''pip install python-docx'''
-'''pip install pyhon-dateuil'''
+```winget install Python.Python3``` (Pour cette commande, lorsque c'est demandé, appuyer sur 'y')
+```pip install numpy```
+```choco install git```
+```pip install kivy```
+```pip install openai```
+```pip install python-docx```
+```pip install pyhon-dateuil```
 
 ## Etape 6 :
 
