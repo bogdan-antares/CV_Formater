@@ -28,5 +28,5 @@ jobs:
 
     - name: Run script
       env:
-        api_key: ${{ secrets.api_key }}
+        API_KEY: ${{ secrets.API_KEY }}
       run: python main.py
