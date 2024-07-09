@@ -35,6 +35,7 @@ Entrer les commandes suivante :
 ```pip install openai```
 ```pip install python-docx```
 ```pip install pyhon-dateuil```
+```pip install python-dotenv```
 
 ## Etape 6 :
 
