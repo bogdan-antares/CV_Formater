@@ -37,12 +37,23 @@ Entrer les commandes suivante :
 ```pip install pyhon-dateuil```
 ```pip install python-dotenv```
 
-## Etape 6 :
-
-Toujours dans le termianal, veuillez rentrer la commande suivante :
-
-
-
 ## Etape 5 :
 
+Dans le terminal, choisisez le repertoire ou vous voulez installer l'application en rentrant les commandes suivantes : 
+
+```cd "$HOME\Desktop"```
+
+Toujours dans le terminal, veuillez rentrer la commande suivante :
+
+```git clone https://github/bogdan-antares/CV_Formater.git```
+## Etape 6 :
+
+Pour utiliser chat GPT, il vous faudra une clé API...
+
+## Etape 7 :
+
 Dans le dossier, faire clique droit sur la fichier _'cv_formater.bat'_ et faire _'envoyer vers Bureau'_. Un raccourci sera alors crée et l'application sera utilisable. en cliquant sur le raccourci.
+
+Si le dépot est mis à jour, faire la commande suivante : 
+
+```git pull origin main```
