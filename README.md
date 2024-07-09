@@ -28,9 +28,9 @@ Puis lorsque l'installation est terminé, fermer et réouvrer la page PowerShell
 
 Entrer les commandes suivante : 
 
-```winget install Python.Python3``` (Pour cette commande, lorsque c'est demandé, appuyer sur 'y')
+```winget install Python.Python3 -y```
 ```pip install numpy```
-```choco install git```
+```choco install git -y```
 ```pip install kivy```
 ```pip install openai```
 ```pip install python-docx```
