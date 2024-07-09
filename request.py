@@ -4,8 +4,13 @@ import re
 import subprocess
 import sys
 
-# Définir la clé API OpenAI
-api_key = 'sk-proj-RcYuvwOdivawba3brVatT3BlbkFJs5nSIgV3vl1YjxectVCp'  # Remplacez par votre clé API réelle
+api_key = os.getenv('api_key')
+
+if not api_key:
+    raise ValueError("La clé API OpenAI n'est pas définie dans les variables d'environnement.")
+
+openai.api_key = api_key
+
 
 exemple1 = """
 # Ajouter des entrées de formation, le tableau fromations doit s'appeler "formations". Ne change pas le nom je te rappelle que ce que tu retourne sera directement inclut dans un code python et donc il faut que respecter la structure :
