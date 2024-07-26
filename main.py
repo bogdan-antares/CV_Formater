@@ -8,6 +8,13 @@ from kivy.uix.popup import Popup
 from kivy.uix.filechooser import FileChooserIconView
 import subprocess
 import os
+import json
+import sys
+
+# Import win32api et win32con uniquement si le système d'exploitation est Windows
+if sys.platform == "win32":
+    import win32api
+    import win32con
 
 class CVFormaterApp(App):
     def build(self):
@@ -32,9 +39,13 @@ class CVFormaterApp(App):
     def load_api_key(self):
         if os.path.exists('config.json'):
             with open('config.json', 'r', encoding='utf-8') as f:
-                config = json.load(f)
-                api_key = config.get('API_KEY', '')
-                self.api_key_input.text = api_key
+                content = f.read().strip()
+                if content:
+                    config = json.loads(content)
+                    api_key = config.get('API_KEY', '')
+                    self.api_key_input.text = api_key
+                else:
+                    self.api_key_input.text = ""
 
     def save_api_key(self, instance):
         api_key = self.api_key_input.text
@@ -64,13 +75,18 @@ class CVFormaterApp(App):
         self.popup.open()
 
     def is_hidden_or_system(self, filename, filetype):
-        try:
-            attributes = win32api.GetFileAttributes(filename)
-            if attributes & (win32con.FILE_ATTRIBUTE_HIDDEN | win32con.FILE_ATTRIBUTE_SYSTEM):
+        # Sur Windows, utiliser win32api pour vérifier les attributs de fichier
+        if sys.platform == "win32":
+            try:
+                attributes = win32api.GetFileAttributes(filename)
+                if attributes & (win32con.FILE_ATTRIBUTE_HIDDEN | win32con.FILE_ATTRIBUTE_SYSTEM):
+                    return False
+                return True
+            except Exception:
                 return False
-            return True
-        except Exception:
-            return False
+        # Sur Linux, vérifier les fichiers cachés (ceux qui commencent par un point)
+        else:
+            return not os.path.basename(filename).startswith('.')
 
     def open_filename_dialog(self, instance):
         self.selected_path = self.file_chooser.path
