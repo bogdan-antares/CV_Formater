@@ -11,18 +11,48 @@ import os
 
 class CVFormaterApp(App):
     def build(self):
-        self.cv_text_input = TextInput(hint_text='Collez le texte du CV ici', size_hint=(1, 0.7))
-        self.format_button = Button(text='Formater le CV', size_hint=(1, 0.15))
+        self.api_key_input = TextInput(hint_text='Entrez la clé API OpenAI', size_hint=(1, 0.1))
+        self.load_api_key()
+
+        self.cv_text_input = TextInput(hint_text='Collez le texte du CV ici', size_hint=(1, 0.6))
+        self.format_button = Button(text='Formater le CV', size_hint=(1, 0.1))
         self.format_button.bind(on_press=self.open_file_chooser)
 
+        self.save_api_key_button = Button(text='Sauvegarder la clé API', size_hint=(1, 0.1))
+        self.save_api_key_button.bind(on_press=self.save_api_key)
+
         layout = BoxLayout(orientation='vertical')
+        layout.add_widget(self.api_key_input)
+        layout.add_widget(self.save_api_key_button)
         layout.add_widget(self.cv_text_input)
         layout.add_widget(self.format_button)
 
         return layout
 
+    def load_api_key(self):
+        if os.path.exists('config.json'):
+            with open('config.json', 'r', encoding='utf-8') as f:
+                config = json.load(f)
+                api_key = config.get('API_KEY', '')
+                self.api_key_input.text = api_key
+
+    def save_api_key(self, instance):
+        api_key = self.api_key_input.text
+        if not api_key:
+            popup = Popup(title='Erreur', content=Label(text='Veuillez entrer une clé API.'), size_hint=(0.6, 0.3))
+            popup.open()
+            return
+
+        config = {'API_KEY': api_key}
+        with open('config.json', 'w', encoding='utf-8') as f:
+            json.dump(config, f)
+
+        os.environ['API_KEY'] = api_key
+        popup = Popup(title='Succès', content=Label(text='Clé API sauvegardée.'), size_hint=(0.6, 0.3))
+        popup.open()
+
     def open_file_chooser(self, instance):
-        self.file_chooser = FileChooserIconView()
+        self.file_chooser = FileChooserIconView(filters=[self.is_hidden_or_system])
         self.save_button = Button(text='Sélectionner le répertoire', size_hint=(1, 0.1))
         self.save_button.bind(on_press=self.open_filename_dialog)
 
@@ -32,6 +62,15 @@ class CVFormaterApp(App):
 
         self.popup = Popup(title='Choisir le répertoire de sauvegarde', content=layout, size_hint=(0.9, 0.9))
         self.popup.open()
+
+    def is_hidden_or_system(self, filename, filetype):
+        try:
+            attributes = win32api.GetFileAttributes(filename)
+            if attributes & (win32con.FILE_ATTRIBUTE_HIDDEN | win32con.FILE_ATTRIBUTE_SYSTEM):
+                return False
+            return True
+        except Exception:
+            return False
 
     def open_filename_dialog(self, instance):
         self.selected_path = self.file_chooser.path
@@ -75,7 +114,7 @@ class CVFormaterApp(App):
             self.cv_text_input.text = ''
             # Construire le chemin complet du fichier
             save_path = os.path.join(self.selected_path, f"{filename}.docx")
-            # Exécuter le script web.py
+            # Exécuter le script request.py
             self.run_web_script(save_path)
             self.filename_popup.dismiss()
         except Exception as e:
@@ -84,7 +123,7 @@ class CVFormaterApp(App):
 
     def run_web_script(self, save_path):
         try:
-            result = subprocess.run(['python', 'request.py', 'cv_text.txt', save_path], check=True, capture_output=True, text=True)
+            result = subprocess.run([sys.executable, 'request.py', 'cv_text.txt', save_path], check=True, capture_output=True, text=True)
             print(f"STDOUT: {result.stdout}")
             print(f"STDERR: {result.stderr}")
             popup = Popup(title='Succès', content=Label(text=f'Document sauvegardé à {save_path}'), size_hint=(0.6, 0.3))
@@ -93,10 +132,5 @@ class CVFormaterApp(App):
             popup = Popup(title='Erreur', content=Label(text=f'Erreur d\'exécution: {e.stderr}'), size_hint=(0.6, 0.3))
             popup.open()
 
-    def on_request_close(self, *args):
-        print("Application closed")
-        return False  # Return False to indicate the window should close
-
 if __name__ == "__main__":
     CVFormaterApp().run()
-
