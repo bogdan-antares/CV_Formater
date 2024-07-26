@@ -10,11 +10,8 @@ import subprocess
 import os
 import json
 import sys
-
-# Import win32api et win32con uniquement si le système d'exploitation est Windows
-if sys.platform == "win32":
-    import win32api
-    import win32con
+import win32api
+import win32con
 
 class CVFormaterApp(App):
     def build(self):
